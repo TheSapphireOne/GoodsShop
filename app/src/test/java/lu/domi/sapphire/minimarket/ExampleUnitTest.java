@@ -1,4 +1,4 @@
-package lu.domi.sapphire.goodsshop;
+package lu.domi.sapphire.minimarket;
 
 import org.junit.Test;
 

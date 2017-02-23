@@ -1,6 +1,6 @@
 <resources>
     <!-- Application -->
-    <string name="app_name">Goods Shop</string>
+    <string name="app_name">Mini Market</string>
 
     <!-- Products -->
     <string name="pr_tomatoes">Tomatoes</string>
@@ -32,8 +32,8 @@
     <!-- Views -->
     <string name="btn_add">Add</string>
 
-    <!-- Other -->
-    <!--<string name="currency_USD">$%s</string>-->
+    <!-- Menu -->
+    <string name="action_cart">Cart</string>
 
 
 </resources>

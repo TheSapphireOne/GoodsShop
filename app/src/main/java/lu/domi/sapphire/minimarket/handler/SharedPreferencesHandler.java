@@ -1,16 +1,7 @@
-package lu.domi.sapphire.goodsshop.handler;
+package lu.domi.sapphire.minimarket.handler;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Map;
-
-import lu.domi.sapphire.goodsshop.data.Product;
 
 public class SharedPreferencesHandler {
 

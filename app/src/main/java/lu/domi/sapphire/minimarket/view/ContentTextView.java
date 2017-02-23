@@ -1,4 +1,4 @@
-package lu.domi.sapphire.goodsshop.view;
+package lu.domi.sapphire.minimarket.view;
 
 import android.content.Context;
 import android.graphics.Typeface;

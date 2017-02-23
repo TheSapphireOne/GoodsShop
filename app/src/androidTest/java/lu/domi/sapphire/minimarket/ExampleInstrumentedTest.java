@@ -1,4 +1,4 @@
-package lu.domi.sapphire.goodsshop;
+package lu.domi.sapphire.minimarket;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

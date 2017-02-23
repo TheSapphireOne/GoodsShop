@@ -1,4 +1,4 @@
-package lu.domi.sapphire.goodsshop.data;
+package lu.domi.sapphire.minimarket.data;
 
 public enum QuantityUnit {
     BAG,

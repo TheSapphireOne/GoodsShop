@@ -4,11 +4,6 @@
     <stroke
         android:width="2dp"
         android:color="#ababab"/>
-    <padding
-        android:bottom="5dp"
-        android:left="5dp"
-        android:right="5dp"
-        android:top="5dp"/>
     <corners
         android:bottomLeftRadius="8dp"
         android:bottomRightRadius="8dp"
