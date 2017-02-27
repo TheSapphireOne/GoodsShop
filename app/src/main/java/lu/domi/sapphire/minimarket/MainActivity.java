@@ -1,6 +1,5 @@
 package lu.domi.sapphire.minimarket;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,23 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
-import lu.domi.sapphire.minimarket.data.Product;
-import lu.domi.sapphire.minimarket.handler.SharedPreferencesHandler;
-
-import static lu.domi.sapphire.minimarket.data.QuantityUnit.BAG;
-import static lu.domi.sapphire.minimarket.data.QuantityUnit.BOTTLE;
-import static lu.domi.sapphire.minimarket.data.QuantityUnit.CAN;
-import static lu.domi.sapphire.minimarket.data.QuantityUnit.DOZEN;
+import lu.domi.sapphire.minimarket.fragments.CartDialogFragment;
+import lu.domi.sapphire.minimarket.services.CartFacade;
+import lu.domi.sapphire.minimarket.services.ProductService;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG_MAIN_ACTIVITY = MainActivity.class.getSimpleName();
+    private static final String CART = "cart";
     private ShopAdapter adapter;
-    private SharedPreferencesHandler prefsHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,30 +31,24 @@ public class MainActivity extends AppCompatActivity {
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO impl cart view
+                showCart();
             }
         });
 
-        prefsHandler = new SharedPreferencesHandler(this);
+        adapter = new ShopAdapter(ProductService.getProductServiceInstance().getProducts(MainActivity.this),
+                MainActivity.this);
 
-
-        adapter = new ShopAdapter(getProducts(), getResources());
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.goods_main_recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.products_main_recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(adapter);
     }
 
-    private ArrayList<Product> getProducts() {
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(new Product(getResources()
-                .getString(R.string.pr_tomatoes), BAG, new BigDecimal(0.95), ContextCompat.getDrawable(MainActivity.this, R.drawable.tomatoes)));
-        products.add(new Product(getResources()
-                .getString(R.string.pr_eggs), DOZEN, new BigDecimal(2.10), ContextCompat.getDrawable(MainActivity.this, R.drawable.eggs)));
-        products.add(new Product(getResources()
-                .getString(R.string.pr_milk), BOTTLE, new BigDecimal(1.30), ContextCompat.getDrawable(MainActivity.this, R.drawable.milk)));
-        products.add(new Product(getResources()
-                .getString(R.string.pr_beans), CAN, new BigDecimal(0.73), ContextCompat.getDrawable(MainActivity.this, R.drawable.beans)));
-        return  products;
+    private void showCart() {
+        if (CartFacade.getServiceInstance(MainActivity.this).hasCartEntries()) {
+            CartDialogFragment addEditGroupDialog = new CartDialogFragment();
+            addEditGroupDialog.show(getSupportFragmentManager(), MainActivity.CART);
+        } else {
+            Toast.makeText(MainActivity.this, getString(R.string.tst_cart_empty), Toast.LENGTH_SHORT).show();
+        }
     }
 }

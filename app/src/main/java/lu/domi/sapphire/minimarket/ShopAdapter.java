@@ -1,7 +1,8 @@
 package lu.domi.sapphire.minimarket;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,17 +16,26 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import lu.domi.sapphire.minimarket.data.Product;
+import lu.domi.sapphire.minimarket.services.CartFacade;
+
+import static android.view.View.GONE;
 
 public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG_SHOP_ADAPTER = ShopAdapter.class.getSimpleName();
 
-    private ArrayList<Product> goodsList;
-    private Resources resources;
+    private ArrayList<Product> productList;
+    private Context context;
+    private int red;
+    private int green;
+    private int grey;
     private Handler repeatUpdateHandler = new Handler();
 
-    public ShopAdapter(ArrayList<Product> goodsList, Resources resources) {
-        this.resources = resources;
-        this.goodsList = goodsList;
+    public ShopAdapter(ArrayList<Product> productList, Context context) {
+        this.context = context;
+        this.productList = productList;
+        red = ContextCompat.getColor(context, R.color.redDark);
+        green = ContextCompat.getColor(context, R.color.colorPrimary);
+        grey = ContextCompat.getColor(context, R.color.grey);
     }
 
     @Override
@@ -36,21 +46,21 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final ViewHolderProduct productHolder = (ViewHolderProduct) holder;
-        Product product = goodsList.get(position);
+        Product product = productList.get(position);
         productHolder.title.setText(product.getName());
         productHolder.price.setText(product.getFormatedPrice());
         switch (product.getUnit()) {
             case BAG:
-                productHolder.unitInfo.setText(resources.getString(R.string.q_bag));
+                productHolder.unitInfo.setText(context.getResources().getString(R.string.q_bag));
                 break;
             case BOTTLE:
-                productHolder.unitInfo.setText(resources.getString(R.string.q_bottle));
+                productHolder.unitInfo.setText(context.getResources().getString(R.string.q_bottle));
                 break;
             case CAN:
-                productHolder.unitInfo.setText(resources.getString(R.string.q_can));
+                productHolder.unitInfo.setText(context.getResources().getString(R.string.q_can));
                 break;
             case DOZEN:
-                productHolder.unitInfo.setText(resources.getString(R.string.q_dozen));
+                productHolder.unitInfo.setText(context.getResources().getString(R.string.q_dozen));
                 break;
             default:
                 // Remove, if it is common usage
@@ -61,14 +71,17 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return goodsList.size();
+        return productList.size();
     }
 
     private class ViewHolderProduct extends RecyclerView.ViewHolder {
         private final static int REP_DELAY = 50;
         private boolean autoIncrement = false;
         private boolean autoDecrement = false;
-        private int count = 0; // TODO check after reloading app ->  state of value
+        private int count = 0;
+        private int cartQuantity;
+        private ImageButton negButton;
+        private ImageButton plusButton;
         TextView title;
         TextView price;
         TextView unitInfo;
@@ -84,22 +97,23 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             productImg = (ImageView) view.findViewById(R.id.product_card_imgView);
             quantity = (TextView) view.findViewById(R.id.quantity_card_editText);
             addToCartBtn = (ImageButton) view.findViewById(R.id.addToCart_card_button);
-            ImageButton plusButton = (ImageButton) view.findViewById(R.id.plus_card_imgButton);
-            ImageButton negButton = (ImageButton) view.findViewById(R.id.neg_card_imgButton);
-            setPlusBtnListener(plusButton);
-            setNegativeBtnListener(negButton);
+            plusButton = (ImageButton) view.findViewById(R.id.plus_card_imgButton);
+            negButton = (ImageButton) view.findViewById(R.id.neg_card_imgButton);
+            setPlusBtnListener();
+            setNegativeBtnListener();
+            setAddToCartListener();
         }
 
-        private void setPlusBtnListener(ImageButton btn) {
-            btn.setOnClickListener(new View.OnClickListener() {
+        private void setPlusBtnListener() {
+            plusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     increment();
                 }
             });
-            btn.setOnLongClickListener(new View.OnLongClickListener() {
+            plusButton.setOnLongClickListener(new View.OnLongClickListener() {
                        public boolean onLongClick(View arg0) {
-                           if (count < 1000) {
+                           if ((count + cartQuantity) < 999) {
                                autoIncrement = true;
                                repeatUpdateHandler.post(new QuantityUpdater());
                            }
@@ -107,7 +121,7 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                        }
                    }
             );
-            btn.setOnTouchListener(new View.OnTouchListener() {
+            plusButton.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     if ((event.getAction() == MotionEvent.ACTION_UP
                             || event.getAction() == MotionEvent.ACTION_CANCEL) && autoIncrement) {
@@ -118,16 +132,16 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         }
 
-        private void setNegativeBtnListener(ImageButton btn) {
-            btn.setOnClickListener(new View.OnClickListener() {
+        private void setNegativeBtnListener() {
+            negButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     decrement();
                 }
             });
-            btn.setOnLongClickListener(new View.OnLongClickListener() {
+            negButton.setOnLongClickListener(new View.OnLongClickListener() {
                          public boolean onLongClick(View arg0) {
-                             if (count > 0) {
+                             if ((count + cartQuantity) > 0) {
                                  autoDecrement = true;
                                  repeatUpdateHandler.post(new QuantityUpdater());
                              }
@@ -135,10 +149,10 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                          }
                      }
             );
-            btn.setOnTouchListener( new View.OnTouchListener() {
+            negButton.setOnTouchListener( new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
                     if ((event.getAction() == MotionEvent.ACTION_UP
-                            || event.getAction() == MotionEvent.ACTION_CANCEL) && autoDecrement ){
+                            || event.getAction() == MotionEvent.ACTION_CANCEL) && autoDecrement) {
                         autoDecrement = false;
                     }
                     return false;
@@ -146,15 +160,31 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
         }
 
+        private  void setAddToCartListener() {
+            addToCartBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CartFacade.getServiceInstance(context).insertUpdate(productList.get(getAdapterPosition()), count);
+                    cartQuantity = CartFacade.getServiceInstance(context).getCartService()
+                            .getCartEntry(productList.get(getAdapterPosition()).getArtNo()).getQuanity();
+                    count = 0; // TODO remove this here and do it with count.. BUG! always one update behind
+                    quantity.setText("0");
+                    notifyItemChanged(getAdapterPosition());
+                    addToCartBtn.setVisibility(GONE);
+                    // TODO Toast or UNDO
+                }
+            });
+        }
+
         private void increment() {
-            if (count < 1000) {
+            if ((count + cartQuantity) < 999) {
                 quantity.setText(String.valueOf(++count));
                 toggleAddToCartButton();
             }
         }
 
         private void decrement() {
-            if (count > 0) {
+            if ((count + cartQuantity) > 0) {
                 quantity.setText(String.valueOf(--count));
                 toggleAddToCartButton();
             }
@@ -173,13 +203,17 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         private void toggleAddToCartButton() {
-            int visability = addToCartBtn.getVisibility();
-            if (count > 0) {
-                if (visability != View.VISIBLE) {
-                    addToCartBtn.setVisibility(View.VISIBLE);
+            int visibility = addToCartBtn.getVisibility();
+            if (visibility != View.VISIBLE) {
+                addToCartBtn.setVisibility(View.VISIBLE);
+                if (count < 0) {
+//                    addToCartBtn.setImageDrawable();
+                } else {
+//                    addToCartBtn.setImageDrawable();
                 }
-            } else if (visability == View.VISIBLE) {
-                addToCartBtn.setVisibility(View.GONE);
+            } else if (count == 0) {
+                // TODO change image of button
+                addToCartBtn.setVisibility(GONE);
             }
         }
     }

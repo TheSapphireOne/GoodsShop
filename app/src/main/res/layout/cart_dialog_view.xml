@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <lu.domi.sapphire.minimarket.view.ContentTextView
+        android:text="@string/title_cart"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_title_height"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sz_title_card"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:background="@color/colorPrimary"
+        android:id="@+id/title_cart_textView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:id="@+id/entries_cart_RecyclerView"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_checkout"
+        android:layout_margin="3dp"
+        android:background="@color/yellow"
+        android:id="@+id/checkout_cart_button" />
+</LinearLayout>

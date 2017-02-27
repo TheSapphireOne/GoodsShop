@@ -4,13 +4,15 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Card Layout -->
-    <dimen name="card_height">140dp</dimen>
-    <dimen name="card_content_height">90dp</dimen>
-    <dimen name="card_btn_row_height">50dp</dimen>
+    <dimen name="product_card_height">140dp</dimen>
+    <dimen name="cart_entry_card_height">60dp</dimen>
+    <dimen name="product_card_content_height">90dp</dimen>
+    <dimen name="product_card_btn_row_height">50dp</dimen>
     <dimen name="card_radius">0dp</dimen>
     <dimen name="pd_card_med">6dp</dimen>
-    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
-    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
+
+    <!-- DialogView -->
+    <dimen name="dialog_title_height">60dp</dimen>
 
     <!-- Font Size -->
     <dimen name="sz_title_card">20sp</dimen>

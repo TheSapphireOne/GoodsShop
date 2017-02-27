@@ -51,7 +51,7 @@ public class SharedPreferencesHandler {
 //     */
 //    public boolean delete(String pk) {
 //        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        if (sharedPrefs.contains(pk)) {
+//        if (sharedPrefs.cartContains(pk)) {
 //            editor.remove(pk);
 //            editor.apply();
 //            return true;
@@ -66,7 +66,7 @@ public class SharedPreferencesHandler {
 //     */
 //    public boolean update(Product player) {
 //        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        if (sharedPrefs.contains(player.getPk())) {
+//        if (sharedPrefs.cartContains(player.getPk())) {
 //            editor.putString(player.getPk(), playerToString(player));
 //            editor.apply();
 //            return true;
@@ -77,7 +77,7 @@ public class SharedPreferencesHandler {
 //    public void updateAll(ArrayList<Product> players) {
 //        SharedPreferences.Editor editor = sharedPrefs.edit();
 //        for (Product pl : players) {
-//            if (sharedPrefs.contains(pl.getPk())) {
+//            if (sharedPrefs.cartContains(pl.getPk())) {
 //                editor.putString(pl.getPk(), playerToString(pl));
 //            }
 //        }

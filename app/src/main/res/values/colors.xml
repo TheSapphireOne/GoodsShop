@@ -9,11 +9,17 @@
     <color name="white">#FFFFFF</color>
     <color name="green">#00B242</color>
     <color name="red">#FF2F25</color>
+    <color name="redDark">#BF3100</color>
     <color name="black">#000000</color>
     <color name="clear">#00FFFFFF</color>
-    <color name="grey">#ABABAB</color>
+    <color name="grey">#898989</color>
 
     <!-- Text -->
     <color name="textColorTitle">#FFFFFF</color>
+
+    <!-- Views -->
+    <color name="yellow">#FFBE00</color>
+
+
 
 </resources>

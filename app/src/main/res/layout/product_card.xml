@@ -5,7 +5,7 @@
     android:id="@+id/product_cardView"
     card_view:cardUseCompatPadding="true"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_height"
+    android:layout_height="@dimen/product_card_height"
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     android:layout_marginStart="16dp"
@@ -20,15 +20,15 @@
         android:padding="2dp">
 
             <ImageView
-                android:layout_width="@dimen/card_height"
-                android:layout_height="@dimen/card_height"
+                android:layout_width="@dimen/product_card_height"
+                android:layout_height="@dimen/product_card_height"
                 android:id="@+id/product_card_imgView"
                 card_view:srcCompat="@drawable/milk"
                 android:scaleType="centerCrop"/>
 
             <ImageButton
-                android:layout_width="@dimen/card_height"
-                android:layout_height="@dimen/card_height"
+                android:layout_width="@dimen/product_card_height"
+                android:layout_height="@dimen/product_card_height"
                 android:visibility="gone"
                 android:scaleType="centerCrop"
                 android:src="@drawable/add_to_cart"
@@ -42,6 +42,7 @@
             android:layout_toEndOf="@+id/product_card_imgView"
             android:layout_alignParentTop="true"
             android:paddingStart="6dp"
+            android:paddingEnd="4dp"
             android:layout_above="@+id/btnRow_card_relativeLayout">
 
             <lu.domi.sapphire.minimarket.view.HeaderTextView
@@ -67,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sz_content_card"
+                android:textColor="@color/grey"
                 android:gravity="top"
                 android:id="@+id/productInfo_card_textView"
                 android:layout_marginStart="2dp"
@@ -75,23 +77,30 @@
                 android:layout_toEndOf="@+id/productPrice_card_textView"
                 android:layout_below="@+id/productTitle_card_textView" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/dividerTop_cart_TextView"
+                android:background="@color/colorPrimary"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
+
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_btn_row_height"
+            android:layout_height="@dimen/product_card_btn_row_height"
             android:orientation="horizontal"
             android:id="@+id/btnRow_card_relativeLayout"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/square_frame"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="4dp"
             android:layout_toEndOf="@+id/product_card_imgView">
 
             <ImageButton
-                android:layout_width="@dimen/card_btn_row_height"
+                android:layout_width="@dimen/product_card_btn_row_height"
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:src="@drawable/ic_add_grey_48px"
@@ -101,10 +110,10 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginBottom="2dp"
                 android:id="@+id/separatorLeft_card_textView"
-                android:background="@color/grey"/>
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -120,13 +129,13 @@
             <TextView
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginEnd="3dp"
                 android:id="@+id/separatorRight_card_textView"
-                android:background="@color/grey"/>
+                android:background="@color/colorPrimary"/>
 
             <ImageButton
-                android:layout_width="@dimen/card_btn_row_height"
+                android:layout_width="@dimen/product_card_btn_row_height"
                 android:layout_height="match_parent"
                 android:padding="2dp"
                 android:src="@drawable/ic_remove_grey_48px"

@@ -28,12 +28,16 @@
     <string name="q_can">/ can</string>
     <string name="q_dozen">/ dozen</string>
 
-
     <!-- Views -->
     <string name="btn_add">Add</string>
+    <string name="btn_checkout">CHECKOUT</string>
+    <string name="title_cart">My Cart</string>
 
     <!-- Menu -->
     <string name="action_cart">Cart</string>
+
+    <!-- Toasts -->
+    <string name="tst_cart_empty">Cart is empty</string>
 
 
 </resources>
