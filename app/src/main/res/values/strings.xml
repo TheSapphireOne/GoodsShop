@@ -31,7 +31,13 @@
     <!-- Views -->
     <string name="btn_add">Add</string>
     <string name="btn_checkout">CHECKOUT</string>
+    <string name="btn_confirm_order">CONFIRM ORDER</string>
+    <string name="btn_cancel">Cancel</string>
     <string name="title_cart">My Cart</string>
+    <string name="title_checkout">CHECKOUT</string>
+    <string name="checkout_header_item">Item</string>
+    <string name="checkout_header_quantity">Amount</string>
+    <string name="checkout_header_price">Price</string>
 
     <!-- Menu -->
     <string name="action_cart">Cart</string>

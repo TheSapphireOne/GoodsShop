@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <lu.domi.sapphire.minimarket.view.ContentTextView
-        android:text="@string/title_cart"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dialog_title_height"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/sz_title_card"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:background="@color/colorPrimary"
-        android:id="@+id/title_cart_textView" />
+        android:id="@+id/header_cart_linearLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true">
+
+        <lu.domi.sapphire.minimarket.view.ContentTextView
+            android:text="@string/title_cart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:textSize="@dimen/sz_title_card"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/title_cart_textView" />
+
+        <lu.domi.sapphire.minimarket.view.ContentTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_gravity="end"
+            android:textSize="@dimen/sz_title_card"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/subtotal_cart_textView" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="3dp"
-        android:id="@+id/entries_cart_RecyclerView"/>
+        android:id="@+id/entries_cart_RecyclerView"
+        android:layout_below="@+id/header_cart_linearLayout"
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_checkout"
-        android:layout_margin="3dp"
-        android:background="@color/yellow"
-        android:id="@+id/checkout_cart_button" />
-</LinearLayout>
+</RelativeLayout>

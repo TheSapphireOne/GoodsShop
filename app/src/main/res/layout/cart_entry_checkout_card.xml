@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cartEntry_checkout_cardView"
+    card_view:cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/cart_entry_card_height"
+    android:background="@color/white"
+    android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_gravity="center">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
+
+        <lu.domi.sapphire.minimarket.view.ContentTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|start"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sz_content_card"
+            android:id="@+id/entryName_checkoutCard_textView"
+            android:layout_weight="1" />
+
+        <lu.domi.sapphire.minimarket.view.ContentTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="40dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sz_content_card"
+            android:gravity="center_vertical"
+            android:id="@+id/entryQuantity_checkoutCard_textView" />
+
+        <lu.domi.sapphire.minimarket.view.ContentTextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sz_content_card"
+            android:gravity="center_vertical|end"
+            android:id="@+id/rowTotal_checkoutCard_textView" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

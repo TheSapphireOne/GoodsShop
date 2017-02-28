@@ -6,8 +6,8 @@
     card_view:cardUseCompatPadding="true"
     android:layout_width="match_parent"
     android:layout_height="@dimen/cart_entry_card_height"
-    android:layout_marginTop="6dp"
-    android:layout_marginBottom="6dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
     android:layout_gravity="center"
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="@dimen/card_radius">
@@ -40,7 +40,12 @@
         <ImageButton
             android:layout_width="@dimen/cart_entry_card_height"
             android:layout_height="match_parent"
-            card_view:srcCompat="@android:drawable/ic_menu_delete"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="14dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:background="@color/clear"
+            android:src="@drawable/ic_delete_black_48px"
             android:id="@+id/removeEntry_cartCard_imgButton"/>
     </LinearLayout>
 

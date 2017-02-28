@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import lu.domi.sapphire.minimarket.R;
@@ -40,128 +41,26 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class ViewHolderCartEntry extends RecyclerView.ViewHolder {
         TextView productName;
         TextView quantity;
+        ImageButton deleteBtn;
 
         ViewHolderCartEntry(View view) {
             super(view);
             productName = (TextView) view.findViewById(R.id.entryName_cartCard_textView);
             quantity = (TextView) view.findViewById(R.id.quantity_cartCard_textView);
-//            setPlusBtnListener();
-//            setNegativeBtnListener();
-//            setAddToCartListener();
+            deleteBtn = (ImageButton) view.findViewById(R.id.removeEntry_cartCard_imgButton);
+            setDeleteBtnListener();
+        }
+
+        private void setDeleteBtnListener() {
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int index = getAdapterPosition();
+                    cartEntries.removeAt(index);
+                    notifyItemRemoved(index);
+                    notifyItemRangeChanged(index, cartEntries.size());
+                }
+            });
         }
     }
-
-//        private void setPlusBtnListener() {
-//            plusButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    increment();
-//                }
-//            });
-//            plusButton.setOnLongClickListener(new View.OnLongClickListener() {
-//                       public boolean onLongClick(View arg0) {
-//                           if ((count + cartQuantity) < 999) {
-//                               autoIncrement = true;
-//                               repeatUpdateHandler.post(new QuantityUpdater());
-//                           }
-//                           return false;
-//                       }
-//                   }
-//            );
-//            plusButton.setOnTouchListener(new View.OnTouchListener() {
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if ((event.getAction() == MotionEvent.ACTION_UP
-//                            || event.getAction() == MotionEvent.ACTION_CANCEL) && autoIncrement) {
-//                        autoIncrement = false;
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
-//
-//        private void setNegativeBtnListener() {
-//            negButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    decrement();
-//                }
-//            });
-//            negButton.setOnLongClickListener(new View.OnLongClickListener() {
-//                         public boolean onLongClick(View arg0) {
-//                             if ((count + cartQuantity) > 0) {
-//                                 autoDecrement = true;
-//                                 repeatUpdateHandler.post(new QuantityUpdater());
-//                             }
-//                             return false;
-//                         }
-//                     }
-//            );
-//            negButton.setOnTouchListener( new View.OnTouchListener() {
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if ((event.getAction() == MotionEvent.ACTION_UP
-//                            || event.getAction() == MotionEvent.ACTION_CANCEL) && autoDecrement) {
-//                        autoDecrement = false;
-//                    }
-//                    return false;
-//                }
-//            });
-//        }
-//
-//        private  void setAddToCartListener() {
-//            addToCartBtn.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    CartFacade.getServiceInstance(context).insertUpdate(productList.get(getAdapterPosition()), count);
-//                    cartQuantity = CartFacade.getServiceInstance(context).getCartService()
-//                            .getCartEntry(productList.get(getAdapterPosition()).getArtNo()).getQuanity();
-//                    count = 0; // TODO remove this here and do it with count.. BUG! always one update behind
-//                    quantity.setText("0");
-//                    notifyItemChanged(getAdapterPosition());
-//                    addToCartBtn.setVisibility(GONE);
-//                    // TODO Toast or UNDO
-//                }
-//            });
-//        }
-//
-//        private void increment() {
-//            if ((count + cartQuantity) < 999) {
-//                quantity.setText(String.valueOf(++count));
-//                toggleAddToCartButton();
-//            }
-//        }
-//
-//        private void decrement() {
-//            if ((count + cartQuantity) > 0) {
-//                quantity.setText(String.valueOf(--count));
-//                toggleAddToCartButton();
-//            }
-//        }
-//
-//        private class QuantityUpdater implements Runnable {
-//            public void run() {
-//                if (autoIncrement){
-//                    increment();
-//                    repeatUpdateHandler.postDelayed(new QuantityUpdater(), REP_DELAY);
-//                } else if (autoDecrement){
-//                    decrement();
-//                    repeatUpdateHandler.postDelayed(new QuantityUpdater(), REP_DELAY);
-//                }
-//            }
-//        }
-//
-//        private void toggleAddToCartButton() {
-//            int visibility = addToCartBtn.getVisibility();
-//            if (visibility != View.VISIBLE) {
-//                addToCartBtn.setVisibility(View.VISIBLE);
-//                if (count < 0) {
-////                    addToCartBtn.setImageDrawable();
-//                } else {
-////                    addToCartBtn.setImageDrawable();
-//                }
-//            } else if (count == 0) {
-//                // TODO change image of button
-//                addToCartBtn.setVisibility(GONE);
-//            }
-//        }
-//    }
 }

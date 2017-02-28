@@ -14,16 +14,18 @@
         app:titleTextColor="@color/textColorTitle"
         android:elevation="4dp"
         android:background="@color/colorPrimary">
-
+<!-- TODO use custom TV in all Activities -->
         <ImageButton
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/cart_toolbar_imgBtn"
+            android:padding="6dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:src="@drawable/cart"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="centerCrop"
             android:layout_gravity="end"/>
 
     </android.support.v7.widget.Toolbar>
@@ -31,8 +33,21 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/products_main_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:overScrollMode="never"
-        android:layout_below="@+id/main_toolbar" />
+        android:layout_below="@+id/main_toolbar"
+        android:layout_above="@+id/checkout_cart_button" />
+ <!-- TODO invisible framelayout -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_checkout"
+        android:background="@color/yellow"
+        android:id="@+id/checkout_cart_button"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

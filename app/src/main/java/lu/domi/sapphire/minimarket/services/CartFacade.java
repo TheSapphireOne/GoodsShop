@@ -3,6 +3,8 @@ package lu.domi.sapphire.minimarket.services;
 
 import android.content.Context;
 
+import java.text.NumberFormat;
+
 import lu.domi.sapphire.minimarket.data.Product;
 import lu.domi.sapphire.minimarket.handler.SharedPreferencesHandler;
 
