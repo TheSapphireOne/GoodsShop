@@ -1,23 +1,34 @@
 package lu.domi.sapphire.minimarket.fragments;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import lu.domi.sapphire.minimarket.R;
 import lu.domi.sapphire.minimarket.data.CartEntry;
+import lu.domi.sapphire.minimarket.data.event.CartEntryEvent;
+
+import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CART_EMPTY;
+import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CART_ENTRY_REMOVED;
 
 public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG_CART_ADAPTER = CartAdapter.class.getSimpleName();
 
     private SparseArray<CartEntry> cartEntries;
+    private Context context;
 
-    public CartAdapter(SparseArray<CartEntry> cartEntries) {
+    public CartAdapter(SparseArray<CartEntry> cartEntries, Context context) {
         this.cartEntries = cartEntries;
+        this.context = context;
     }
 
     @Override
@@ -38,6 +49,19 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return cartEntries.size();
     }
 
+    private void removeEntry(int index) { // TODO udate price
+        CartEntryEvent eventPayload;
+        if (cartEntries.size() > 1) {
+            eventPayload = new CartEntryEvent(CART_ENTRY_REMOVED, cartEntries.keyAt(index));
+        } else {
+            eventPayload = new CartEntryEvent(CART_EMPTY, cartEntries.keyAt(index));
+        }
+        cartEntries.removeAt(index);
+        notifyItemRemoved(index);
+        notifyItemRangeChanged(index, cartEntries.size());
+        EventBus.getDefault().post(eventPayload);
+    }
+
     private class ViewHolderCartEntry extends RecyclerView.ViewHolder {
         TextView productName;
         TextView quantity;
@@ -56,9 +80,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     int index = getAdapterPosition();
-                    cartEntries.removeAt(index);
-                    notifyItemRemoved(index);
-                    notifyItemRangeChanged(index, cartEntries.size());
+                    removeEntry(index);
                 }
             });
         }

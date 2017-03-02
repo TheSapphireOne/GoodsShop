@@ -2,155 +2,84 @@ package lu.domi.sapphire.minimarket.handler;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.util.SparseArray;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.util.Map;
+
+import lu.domi.sapphire.minimarket.data.CartEntry;
 
 public class SharedPreferencesHandler {
 
     private static final String TAG_PREFS = SharedPreferencesHandler.class.getSimpleName();
-    public static final String PREFS_NAME = "ShoppingPrefsFile";
+    public static final String PREFS_NAME = "MiniMarketPrefsFile";
     private SharedPreferences sharedPrefs;
 
     public SharedPreferencesHandler(final Context context) {
         sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-//    public void saveAll(ArrayList<Product> players) {
-//        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        for (Product pl : players) {
-//            editor.putString(pl.getPk(), playerToString(pl));
-//        }
-//        editor.apply();
-//    }
-//
-//    public void insert(Product pl) {
-//        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        editor.putString(pl.getPk(), playerToString(pl));
-//        editor.apply();
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    public ArrayList<Product> loadAll() {
-//        ArrayList<Product> players = new ArrayList<>();
-//        Map<String, String> data = (Map<String, String>)sharedPrefs.getAll();
-//        Product pl;
-//        for (Map.Entry<String, String> entry : data.entrySet()) {
-//            if (entry.getKey().equals(KEY_SETTINGS)) {
-//                settings = stringToSettings(entry.getValue());
-//            } else {
-//                pl = stringToGood(entry.getValue());
-//                pl.setPk(entry.getKey());
-//                players.add(pl);
-//            }
-//        }
-//        return players;
-//    }
-//
-//    /**
-//     * Delete player from shared preferences
-//     * @param pk
-//     * @return false, if entry wasn't found
-//     */
-//    public boolean delete(String pk) {
-//        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        if (sharedPrefs.cartContains(pk)) {
-//            editor.remove(pk);
-//            editor.apply();
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    /**
-//     * Update existing player in shared preferences
-//     * @param player
-//     * @return false, if entry was not found
-//     */
-//    public boolean update(Product player) {
-//        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        if (sharedPrefs.cartContains(player.getPk())) {
-//            editor.putString(player.getPk(), playerToString(player));
-//            editor.apply();
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//    public void updateAll(ArrayList<Product> players) {
-//        SharedPreferences.Editor editor = sharedPrefs.edit();
-//        for (Product pl : players) {
-//            if (sharedPrefs.cartContains(pl.getPk())) {
-//                editor.putString(pl.getPk(), playerToString(pl));
-//            }
-//        }
-//        editor.apply();
-//    }
-//
-////    public boolean insertUpdateSettings(Settings settings) {
-////        SharedPreferences.Editor editor = sharedPrefs.edit();
-////        editor.putString(KEY_SETTINGS, settingsToString(settings));
-////        editor.apply();
-////        return true;
-////    }
-////
-////    public Settings getSettings() {
-////        if (settings != null) {
-////            return settings;
-////        } else {
-////            String setStr = sharedPrefs.getString(KEY_SETTINGS, "");
-////            return stringToSettings(setStr);
-////        }
-////    }
-//
-//    private String goodToString(Product product) {
-//        JSONObject jsonObj = new JSONObject();
-//        try {
-//            jsonObj.put("name", product.getName());
-//            jsonObj.put("color", product.getColor());
-//            jsonObj.put("score", product.getScore());
-//        } catch (JSONException e) {
-//            Log.e(TAG_PREFS, "Product to JSON error: " + e);
-//        }
-//        return jsonObj.toString();
-//    }
-//
-//    private Product stringToGood(String gooddString) {
-//        Product product = null;
-//        try {
-//            JSONObject reader = new JSONObject(product);
-//            String name =reader.getString("name");
-//            int color = reader.getInt("color");
-//            long score = reader.getLong("score");
-//            product = new Product(name, color, score);
-//        } catch (JSONException e) {
-//            Log.e(TAG_PREFS, "JSON to Product error: " + e);
-//        }
-//        return product;
-//    }
+    public void insertUpdate(CartEntry entry, int artNo) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("" + artNo, convertCartEntry(entry));
+        editor.apply();
+    }
 
-//    private String settingsToString(Settings set) {
-//        JSONObject jsonObj = new JSONObject();
-//        try {
-//            jsonObj.put("inverted", set.isInverted());
-//            jsonObj.put("absolute", set.isAbsolute());
-//        } catch (JSONException e) {
-//            Log.e(TAG_PREFS, "Settings to JSON error: " + e);
-//        }
-//        return jsonObj.toString();
-//    }
-//
-//    private Settings stringToSettings(String sStr) {
-//        if (sStr.isEmpty()) {
-//            return new Settings(false, false);
-//        }
-//        Settings set = null;
-//        try {
-//            JSONObject reader = new JSONObject(sStr);
-//            boolean isInverted = reader.getBoolean("inverted");
-//            boolean isAbsolute = reader.getBoolean("absolute");
-//            set = new Settings(isInverted, isAbsolute);
-//        } catch (JSONException e) {
-//            Log.e(TAG_PREFS, "JSON to Settings error: " + e);
-//        }
-//        return set;
-//    }
+    @SuppressWarnings("unchecked")
+    public SparseArray<CartEntry> loadAll() {
+        SparseArray<CartEntry> cartEntries = new SparseArray<>();
+        CartEntry entry;
 
+        Map<String, String> data = (Map<String, String>)sharedPrefs.getAll();
+
+        for (Map.Entry<String, String> dataEntry : data.entrySet()) {
+            entry = populateCartEntry(dataEntry.getValue());
+            cartEntries.put(Integer.parseInt(dataEntry.getKey()), entry);
+        }
+        return cartEntries;
+    }
+
+    public void delete(int artNo) {
+        String key = "" + artNo;
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        if (sharedPrefs.contains(key)) {
+            editor.remove(key);
+            editor.apply();
+        }
+    }
+
+    public void deleteAll() {
+        sharedPrefs.edit().clear().apply();
+    }
+
+    // Usually we would use populators/converts for this case
+    private String convertCartEntry(CartEntry entry) {
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put("name", entry.getName());
+            jsonObj.put("quantity", entry.getQuanity());
+            jsonObj.put("price", entry.getBasePrice().doubleValue());
+        } catch (JSONException e) {
+            Log.e(TAG_PREFS, "CartEntry to JSON error: " + e);
+        }
+        return jsonObj.toString();
+    }
+
+    private CartEntry populateCartEntry(String cartEntryStr) {
+        CartEntry entry = null;
+        try {
+            JSONObject reader = new JSONObject(cartEntryStr);
+            String name =reader.getString("name");
+            int quantity = reader.getInt("quantity");
+            BigDecimal price = new BigDecimal(reader.getDouble("price"));
+            entry = new CartEntry(name, price, quantity);
+        } catch (JSONException e) {
+            Log.e(TAG_PREFS, "JSON to CartEntry error: " + e);
+        }
+        return entry;
+    }
 }

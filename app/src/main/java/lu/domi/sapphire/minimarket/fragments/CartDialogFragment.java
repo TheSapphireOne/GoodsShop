@@ -19,20 +19,17 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import lu.domi.sapphire.minimarket.R;
 import lu.domi.sapphire.minimarket.data.CartEntry;
 import lu.domi.sapphire.minimarket.services.CartFacade;
 
-import static lu.domi.sapphire.minimarket.data.FragmentForwardingResult.CHECKOUT;
+import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CHECKOUT;
 
 public class CartDialogFragment extends DialogFragment {
 
     private CartAdapter adapter;
     private SparseArray<CartEntry> cartEntries;
+    private TextView subtotalTextView;
 
     @Override
     @NonNull
@@ -58,27 +55,22 @@ public class CartDialogFragment extends DialogFragment {
             });
 
         cartEntries = CartFacade.getServiceInstance(getContext()).getCartService().getCartEntries();
-        adapter = new CartAdapter(cartEntries);
+        adapter = new CartAdapter(cartEntries, getContext());
 
         RecyclerView recyclerView = (RecyclerView) dialogView.findViewById(R.id.entries_cart_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        TextView subtotalTextView = (TextView)dialogView.findViewById(R.id.subtotal_cart_textView);
+        subtotalTextView = (TextView)dialogView.findViewById(R.id.subtotal_cart_textView);
         subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartService().getSubtotal());
 
         builder.setView(dialogView);
         return builder.create();
     }
 
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        Window w = getDialog().getWindow();
-//        if (w != null) {
-//            w.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-//        }
-//    }
+    public void updateSubtotal() {
+        subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartService().getSubtotal());
+    }
 
     @Override
     public void onStart() {

@@ -44,6 +44,9 @@
 
     <!-- Toasts -->
     <string name="tst_cart_empty">Cart is empty</string>
+    <string name="tst_cart_entry_added">Product added to cart</string>
+    <string name="tst_cart_entry_removed">Product was removed from cart</string>
+    <string name="tst_order_completed">Your order has been successfully transmitted</string>
 
 
 </resources>

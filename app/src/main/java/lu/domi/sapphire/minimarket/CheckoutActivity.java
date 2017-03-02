@@ -1,29 +1,22 @@
 package lu.domi.sapphire.minimarket;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-import org.greenrobot.eventbus.Subscribe;
+import android.widget.Button;
 
 import lu.domi.sapphire.minimarket.data.CartEntry;
-import lu.domi.sapphire.minimarket.data.FragmentForwardingResult;
-import lu.domi.sapphire.minimarket.fragments.CartDialogFragment;
 import lu.domi.sapphire.minimarket.services.CartFacade;
-import lu.domi.sapphire.minimarket.services.ProductService;
-
-import static lu.domi.sapphire.minimarket.data.FragmentForwardingResult.CHECKOUT;
 
 public class CheckoutActivity extends AppCompatActivity {
 
     private static final String TAG_CHECKOUT_ACTIVITY = CheckoutActivity.class.getSimpleName();
+    public static final int ORDER_COMPLETED = 2;
     private CheckoutAdapter adapter;
 
     @Override
@@ -39,15 +32,16 @@ public class CheckoutActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-
-//        ImageButton cartBtn = (ImageButton) toolbar.findViewById(R.id.cart_toolbar_imgBtn);
-//        cartBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showCart();
-//            }
-//        });
+        Button confirmBtn = (Button) findViewById(R.id.checkout_cart_button);
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Process order here...
+                CartFacade.getServiceInstance(CheckoutActivity.this).oderConfirmation();
+                CheckoutActivity.this.setResult(ORDER_COMPLETED);
+                finish();
+            }
+        });
 
         SparseArray<CartEntry> cartEntries = CartFacade.getServiceInstance(CheckoutActivity.this).getCartService().getCartEntries();
         adapter = new CheckoutAdapter(cartEntries, CheckoutActivity.this);
@@ -66,14 +60,11 @@ public class CheckoutActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                finish();
+                finish(); // TODO check if needed
                 overridePendingTransition(R.anim.checkout_enter, R.anim.checkout_exit);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

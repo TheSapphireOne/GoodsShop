@@ -11,19 +11,14 @@ public class CartEntry {
     private int quantity;
     private BigDecimal basePrice;
 
-    public CartEntry(String name, QuantityUnit unit, BigDecimal basePrice, int quantity) {
+    public CartEntry(String name, BigDecimal basePrice, int quantity) {
         this.name = name;
-        this.unit = unit;
         this.basePrice = basePrice;
         this.quantity = quantity;
     }
 
     public String getName() {
         return name;
-    }
-
-    public QuantityUnit getUnit() {
-        return unit;
     }
 
     public BigDecimal getBasePrice() {

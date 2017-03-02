@@ -3,14 +3,11 @@ package lu.domi.sapphire.minimarket.services;
 
 import android.content.Context;
 
-import java.text.NumberFormat;
-
 import lu.domi.sapphire.minimarket.data.Product;
 import lu.domi.sapphire.minimarket.handler.SharedPreferencesHandler;
 
 public class CartFacade {
 
-    private SharedPreferencesHandler prefsHandler;
     private static CartFacade cartInstance = null;
     private CartService cartService;
 
@@ -18,8 +15,7 @@ public class CartFacade {
 
     private CartFacade(final Context context) {
         cartInstance = new CartFacade();
-        cartService =  new CartService();
-        prefsHandler = new SharedPreferencesHandler(context);
+        cartService =  new CartService(context);
     }
 
     public void insertUpdate(Product product, int quantity) {
@@ -30,12 +26,17 @@ public class CartFacade {
         }
     }
 
-    public void removeAll(int artNo) {
+    public void remove(int artNo) {
         getCartService().removeEntry(artNo);
     }
 
     public boolean hasCartEntries() {
         return getCartService().getCartEntries().size() > 0;
+    }
+
+    public void oderConfirmation() {
+        // Do oder processing stuff here...
+        getCartService().cleanUpCart();
     }
 
     public static CartFacade getServiceInstance(final Context context) {

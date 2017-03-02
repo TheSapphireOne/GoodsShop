@@ -15,24 +15,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true">
-<!--TODO-->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="@string/title_checkout"
-                android:gravity="center_vertical|start"
-                android:layout_weight="1"
-                android:textSize="@dimen/sz_title_toolbar"
-                android:layout_marginStart="110dp"
-                android:layout_gravity="start"
-                android:id="@+id/textView" />
-
-        </LinearLayout>
+            android:text="@string/title_checkout"
+            android:gravity="center_vertical|start"
+            android:layout_weight="1"
+            android:textSize="@dimen/sz_title_toolbar"
+            android:layout_marginStart="110dp"
+            android:layout_gravity="start"
+            android:id="@+id/textView" />
 
     </android.support.v7.widget.Toolbar>
 
@@ -49,7 +41,7 @@
             android:paddingStart="14dp"
             android:paddingEnd="14dp">
 
-            <lu.domi.sapphire.minimarket.view.ContentTextView
+            <lu.domi.sapphire.minimarket.view.HeaderTextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|start"
@@ -59,7 +51,7 @@
                 android:id="@+id/entryName_checkoutCard_textView"
                 android:layout_weight="1" />
 
-            <lu.domi.sapphire.minimarket.view.ContentTextView
+            <lu.domi.sapphire.minimarket.view.HeaderTextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -70,7 +62,7 @@
                 android:gravity="center_vertical"
                 android:id="@+id/entryQuantity_checkoutCard_textView" />
 
-            <lu.domi.sapphire.minimarket.view.ContentTextView
+            <lu.domi.sapphire.minimarket.view.HeaderTextView
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:text="@string/checkout_header_price"
@@ -96,7 +88,7 @@
             android:background="@color/colorPrimaryDark"
             android:id="@+id/totalDivider_checkout_textView" />
 
-        <lu.domi.sapphire.minimarket.view.ContentTextView
+        <lu.domi.sapphire.minimarket.view.HeaderTextView
             android:text="Total: $45.10"
             android:layout_width="match_parent"
             android:layout_marginEnd="8dp"

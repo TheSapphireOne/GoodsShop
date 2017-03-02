@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,17 +27,11 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Product> productList;
     private Context context;
-    private int red;
-    private int green;
-    private int grey;
     private Handler repeatUpdateHandler = new Handler();
 
     public ShopAdapter(ArrayList<Product> productList, Context context) {
         this.context = context;
         this.productList = productList;
-        red = ContextCompat.getColor(context, R.color.redDark);
-        green = ContextCompat.getColor(context, R.color.colorPrimary);
-        grey = ContextCompat.getColor(context, R.color.grey);
     }
 
     @Override
@@ -171,7 +167,8 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     quantity.setText("0");
                     notifyItemChanged(getAdapterPosition());
                     addToCartBtn.setVisibility(GONE);
-                    // TODO Toast or UNDO
+                    Toast.makeText(context, context.getString(R.string.tst_cart_entry_added), Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
