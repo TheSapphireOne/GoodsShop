@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private void showCheckout() {
         Intent intent = new Intent(this, CheckoutActivity.class);
         startActivityForResult(intent, CHECKOUT_ACTIVITY);
+        overridePendingTransition(R.anim.main_enter, R.anim.main_exit);
     }
 
     @Override
