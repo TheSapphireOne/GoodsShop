@@ -2,10 +2,9 @@ package lu.domi.sapphire.minimarket;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,6 +62,8 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Log.w(TAG_SHOP_ADAPTER, "Unit information is missing of product: " + product.getName());
         }
         productHolder.productImg.setImageDrawable(product.getProductImg());
+        productHolder.cartQuantity = CartFacade.getServiceInstance(context).getQuantityOf(
+                productList.get(position).getArtNo());
     }
 
     @Override
@@ -78,6 +79,7 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private int cartQuantity;
         private ImageButton negButton;
         private ImageButton plusButton;
+        private boolean addToCartImgSet = true;
         TextView title;
         TextView price;
         TextView unitInfo;
@@ -109,7 +111,7 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
             plusButton.setOnLongClickListener(new View.OnLongClickListener() {
                        public boolean onLongClick(View arg0) {
-                           if ((count + cartQuantity) < 999) {
+                           if ((count + cartQuantity) < 1000) {
                                autoIncrement = true;
                                repeatUpdateHandler.post(new QuantityUpdater());
                            }
@@ -161,20 +163,23 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     CartFacade.getServiceInstance(context).insertUpdate(productList.get(getAdapterPosition()), count);
-                    cartQuantity = CartFacade.getServiceInstance(context).getCartService()
-                            .getCartEntry(productList.get(getAdapterPosition()).getArtNo()).getQuanity();
-                    count = 0; // TODO remove this here and do it with count.. BUG! always one update behind
+                    cartQuantity = CartFacade.getServiceInstance(context).getQuantityOf(
+                            productList.get(getAdapterPosition()).getArtNo());
                     quantity.setText("0");
                     notifyItemChanged(getAdapterPosition());
                     addToCartBtn.setVisibility(GONE);
-                    Toast.makeText(context, context.getString(R.string.tst_cart_entry_added), Toast.LENGTH_SHORT).show();
-
+                    if (count > 0) {
+                        Toast.makeText(context, context.getString(R.string.tst_cart_entry_added), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, context.getString(R.string.tst_cart_entry_removed), Toast.LENGTH_SHORT).show();
+                    }
+                    count = 0;
                 }
             });
         }
 
         private void increment() {
-            if ((count + cartQuantity) < 999) {
+            if ((count + cartQuantity) < 1000) {
                 quantity.setText(String.valueOf(++count));
                 toggleAddToCartButton();
             }
@@ -189,10 +194,10 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private class QuantityUpdater implements Runnable {
             public void run() {
-                if (autoIncrement){
+                if (autoIncrement) {
                     increment();
                     repeatUpdateHandler.postDelayed(new QuantityUpdater(), REP_DELAY);
-                } else if (autoDecrement){
+                } else if (autoDecrement) {
                     decrement();
                     repeatUpdateHandler.postDelayed(new QuantityUpdater(), REP_DELAY);
                 }
@@ -203,10 +208,14 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             int visibility = addToCartBtn.getVisibility();
             if (visibility != View.VISIBLE) {
                 addToCartBtn.setVisibility(View.VISIBLE);
-                if (count < 0) {
-//                    addToCartBtn.setImageDrawable();
-                } else {
-//                    addToCartBtn.setImageDrawable();
+                if (count > 0 && addToCartImgSet) {
+                    addToCartBtn.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),
+                            R.drawable.add_to_cart, null));
+                    addToCartImgSet = true;
+                } else if (addToCartImgSet) {
+                    addToCartBtn.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),
+                            R.drawable.remove_from_cart, null));
+                    addToCartImgSet = false;
                 }
             } else if (count == 0) {
                 // TODO change image of button

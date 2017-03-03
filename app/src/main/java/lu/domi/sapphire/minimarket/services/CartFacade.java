@@ -4,7 +4,6 @@ package lu.domi.sapphire.minimarket.services;
 import android.content.Context;
 
 import lu.domi.sapphire.minimarket.data.Product;
-import lu.domi.sapphire.minimarket.handler.SharedPreferencesHandler;
 
 public class CartFacade {
 
@@ -19,7 +18,7 @@ public class CartFacade {
     }
 
     public void insertUpdate(Product product, int quantity) {
-        if (getCartService().cartContains(product.getArtNo())) {
+        if (getCartService().contains(product.getArtNo())) {
             getCartService().updateEntry(product.getArtNo(), quantity);
         } else {
             getCartService().insertEntry(product, quantity);
@@ -37,6 +36,13 @@ public class CartFacade {
     public void oderConfirmation() {
         // Do oder processing stuff here...
         getCartService().cleanUpCart();
+    }
+
+    public int getQuantityOf(int artNo) {
+        if (getCartService().contains(artNo)) {
+            return getCartService().getCartEntry(artNo).getQuanity();
+        }
+        return 0;
     }
 
     public static CartFacade getServiceInstance(final Context context) {

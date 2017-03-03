@@ -76,7 +76,7 @@ public class CartService {
         return NumberFormat.getCurrencyInstance(locale).format(rowTotal);
     }
 
-    public boolean cartContains(int artNo) {
+    public boolean contains(int artNo) {
         return getCartEntries().get(artNo) != null;
     }
 
@@ -86,7 +86,6 @@ public class CartService {
 
     public SparseArray<CartEntry> getCartEntries() {
         if (cartEntries == null) {
-            // Load cart
             cartEntries = prefsHandler.loadAll();
         }
         return cartEntries;

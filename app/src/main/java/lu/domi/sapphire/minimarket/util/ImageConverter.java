@@ -216,7 +216,7 @@ public class ImageConverter {
 //
 //    public static void deleteImage(String oldImagePath) {
 //        // do not delete default picture
-//        if (!oldImagePath.cartContains(ImageConverter.DEFAULT_IMG)) {
+//        if (!oldImagePath.contains(ImageConverter.DEFAULT_IMG)) {
 //            File file = new File(oldImagePath);
 //            boolean deleted = file.delete();
 //            if (!deleted) {

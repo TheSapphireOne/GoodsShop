@@ -7,7 +7,6 @@ import java.util.Locale;
 public class CartEntry {
 
     private String name;
-    private QuantityUnit unit;
     private int quantity;
     private BigDecimal basePrice;
 
