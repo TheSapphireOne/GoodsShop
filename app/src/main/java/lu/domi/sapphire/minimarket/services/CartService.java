@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.SparseArray;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -38,7 +39,7 @@ public class CartService {
         prefsHandler.insertUpdate(newEntry, product.getArtNo());
     }
 
-    public String getSubtotal() {
+    public BigDecimal getSubtotal() {
         BigDecimal subtotal = new BigDecimal(0);
         BigDecimal rowTotal;
         for(int i = 0; i < getCartEntries().size(); i++) {
@@ -46,7 +47,7 @@ public class CartService {
             rowTotal = getRowTotalOf(key);
             subtotal = subtotal.add(rowTotal);
         }
-        return NumberFormat.getCurrencyInstance(Locale.US).format(subtotal);
+        return subtotal;
     }
 
     private BigDecimal getRowTotalOf(int key) {
@@ -55,25 +56,15 @@ public class CartService {
         return entry.getBasePrice().multiply(quantity);
     }
 
-    public String getFormatedSubtotal(Locale locale) {
-        BigDecimal subtotal = new BigDecimal(0);
-        BigDecimal rowTotal;
-        for(int i = 0; i < getCartEntries().size(); i++) {
-            int key = getCartEntries().keyAt(i);
-            rowTotal = getRowTotalOf(key);
-            subtotal = subtotal.add(rowTotal);
-        }
-        return NumberFormat.getCurrencyInstance(locale).format(subtotal);
-    }
-
     public void cleanUpCart() {
         cartEntries = new SparseArray<>();
         prefsHandler.deleteAll();
     }
 
-    public String getFormatedRowTotalOf(int key, Locale locale) {
-        BigDecimal rowTotal = getRowTotalOf(key);
-        return NumberFormat.getCurrencyInstance(locale).format(rowTotal);
+    public String getFormatedRowTotalOf(int key, BigDecimal rate) {
+        BigDecimal rowTotal= getRowTotalOf(key).multiply(rate);
+        DecimalFormat formatter = new DecimalFormat("###,###,###.00");
+        return formatter.format(rowTotal);
     }
 
     public boolean contains(int artNo) {

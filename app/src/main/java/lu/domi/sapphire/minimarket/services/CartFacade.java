@@ -2,8 +2,11 @@ package lu.domi.sapphire.minimarket.services;
 
 
 import android.content.Context;
+import android.support.v4.util.Pair;
 
-import lu.domi.sapphire.minimarket.data.ExchangeRates;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 import lu.domi.sapphire.minimarket.data.Product;
 
 public class CartFacade {
@@ -11,6 +14,7 @@ public class CartFacade {
     private static CartFacade cartInstance = null;
     private CartService cartService;
     private CurrencyService currencyService;
+    private Pair<String, BigDecimal> currencyRate;
 
     private CartFacade() {}
 
@@ -18,6 +22,7 @@ public class CartFacade {
         cartInstance = new CartFacade();
         cartService =  new CartService(context);
         currencyService = new CurrencyService();
+        currencyRate = new Pair<>("USD", new BigDecimal(1.0d));
     }
 
     public void insertUpdate(Product product, int quantity) {
@@ -46,6 +51,24 @@ public class CartFacade {
             return getCartService().getCartEntry(artNo).getQuanity();
         }
         return 0;
+    }
+
+    public void setCurrency(String isoCode) {
+        BigDecimal rate = getCurrencyService().getExchangeRates().getRate(isoCode);
+        currencyRate = new Pair<>(isoCode, rate);
+    }
+
+    public BigDecimal getCurrencyRate() {
+        return currencyRate.second;
+    }
+
+    public String getCartTotal() { // TODO refactoring..
+        // Add shipping costs & taxes here...
+        BigDecimal subtotal = getCartService().getSubtotal();
+        // Would usually be in a calculation service
+        BigDecimal total = subtotal.multiply(currencyRate.second);
+        DecimalFormat formatter = new DecimalFormat("###,###,###.00 " + currencyRate.first);
+        return formatter.format(total);
     }
 
     public static CartFacade getServiceInstance(final Context context) {

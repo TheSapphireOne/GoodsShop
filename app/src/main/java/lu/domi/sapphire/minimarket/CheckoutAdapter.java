@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.math.BigDecimal;
 import java.util.Locale;
 
 import lu.domi.sapphire.minimarket.data.CartEntry;
@@ -21,10 +22,12 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private SparseArray<CartEntry> cartEntryList;
     private Context context;
+    private BigDecimal currencyRate;
 
     public CheckoutAdapter(SparseArray<CartEntry> cartEntryList, Context context) {
         this.cartEntryList = cartEntryList;
         this.context = context;
+        currencyRate = CartFacade.getServiceInstance(context).getCurrencyRate();
     }
 
     @Override
@@ -41,8 +44,13 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         cartEntryHolder.name.setText(entry.getName()); // TODO insert special card at pos 1
         cartEntryHolder.quantity.setText(String.valueOf(entry.getQuanity()));
 
-        String rowTotal = CartFacade.getServiceInstance(context).getCartService().getFormatedRowTotalOf(key, Locale.getDefault());
+        String rowTotal = CartFacade.getServiceInstance(context).getCartService().getFormatedRowTotalOf(key, currencyRate);
         cartEntryHolder.rowPrice.setText(rowTotal);
+    }
+
+    public void notifyPricesHaveChanged() {
+        currencyRate = CartFacade.getServiceInstance(context).getCurrencyRate();
+        notifyDataSetChanged();
     }
 
     @Override

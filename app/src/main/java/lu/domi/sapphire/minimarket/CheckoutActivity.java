@@ -8,10 +8,12 @@ import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,12 +29,16 @@ public class CheckoutActivity extends AppCompatActivity {
     private static final String TAG_CHECKOUT_ACTIVITY = CheckoutActivity.class.getSimpleName();
     public static final int ORDER_COMPLETED = 2;
     private ArrayAdapter<String> spinnerAdapter;
+    private CheckoutAdapter checkoutAdapter;
     private Spinner changeCurrencySpinner;
+    private TextView totalTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) { // TODO move listeners to methods (refactoring)
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        totalTextView = (TextView)findViewById(R.id.total_checkout_textView);
 
         Button confirmBtn = (Button) findViewById(R.id.checkout_cart_button);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +65,7 @@ public class CheckoutActivity extends AppCompatActivity {
         changeCurrencySpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) { // TODO check why is always checking...
                     if (exchangeRates.getCurrencies().size() > 1 && exchangeRates.isUpToDate()) {
                         changeCurrencySpinner.performClick();
                     } else {
@@ -67,19 +73,39 @@ public class CheckoutActivity extends AppCompatActivity {
                     }
                 }
                 return true;
-            }
+            } // TODO request Permissions for android 6.0+ (Internet)
         });
         spinnerAdapter = new ArrayAdapter<>(CheckoutActivity.this, android.R.layout.simple_spinner_dropdown_item,
                 exchangeRates.getCurrencies().toArray(new String[exchangeRates.getCurrencies().size()]));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        changeCurrencySpinner.setAdapter(spinnerAdapter); // TODO set correct currency
+        changeCurrencySpinner.setAdapter(spinnerAdapter); // TODO set correct currency + add it to cart
+
+        changeCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String currencyIso = spinnerAdapter.getItem(position);
+                CartFacade.getServiceInstance(CheckoutActivity.this).setCurrency(currencyIso);
+                updatePrices();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         SparseArray<CartEntry> cartEntries = CartFacade.getServiceInstance(CheckoutActivity.this).getCartService().getCartEntries();
-        CheckoutAdapter adapter = new CheckoutAdapter(cartEntries, CheckoutActivity.this);
+        checkoutAdapter = new CheckoutAdapter(cartEntries, CheckoutActivity.this);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.cart_entries_checkout_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(CheckoutActivity.this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(checkoutAdapter);
+
+        updatePrices();
+    }
+
+    private void updatePrices() {
+        String total =  CartFacade.getServiceInstance(CheckoutActivity.this).getCartTotal();
+        totalTextView.setText(total);
+        checkoutAdapter.notifyPricesHaveChanged();
     }
 
     @Subscribe

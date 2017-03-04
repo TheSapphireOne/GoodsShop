@@ -132,15 +132,31 @@
             android:background="@color/colorPrimaryDark"
             android:id="@+id/totalDividerBottom_checkout_textView" />
 
-        <lu.domi.sapphire.minimarket.view.HeaderTextView
-            android:text="Total: $45.10"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_height="@dimen/cart_entry_card_height"
-            android:gravity="center_vertical|end"
-            android:textSize="@dimen/sz_content_card"
-            android:textColor="@color/black"
-            android:id="@+id/textView3" />
+            android:layout_height="@dimen/cart_entry_card_height">
+
+            <lu.domi.sapphire.minimarket.view.HeaderTextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/checkout_total"
+                android:layout_weight="1"
+                android:gravity="center_vertical|start"
+                android:textSize="@dimen/sz_content_card"
+                android:textColor="@color/black"
+                android:id="@+id/totalText_checkout_textView" />
+
+            <lu.domi.sapphire.minimarket.view.HeaderTextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/cart_entry_card_height"
+                android:gravity="center_vertical|end"
+                android:textSize="@dimen/sz_content_card"
+                android:textColor="@color/black"
+                android:id="@+id/total_checkout_textView" />
+        </LinearLayout>
 
         <Button
             android:layout_width="match_parent"

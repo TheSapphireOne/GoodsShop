@@ -62,14 +62,14 @@ public class CartDialogFragment extends DialogFragment {
         recyclerView.setAdapter(adapter);
 
         subtotalTextView = (TextView)dialogView.findViewById(R.id.subtotal_cart_textView);
-        subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartService().getSubtotal());
+        subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartTotal());
 
         builder.setView(dialogView);
         return builder.create();
     }
 
     public void updateSubtotal() {
-        subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartService().getSubtotal());
+        subtotalTextView.setText(CartFacade.getServiceInstance(getContext()).getCartTotal());
     }
 
     @Override

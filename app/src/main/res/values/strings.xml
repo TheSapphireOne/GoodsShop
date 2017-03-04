@@ -38,7 +38,8 @@
     <string name="checkout_header_item">Item</string>
     <string name="checkout_header_quantity">Amount</string>
     <string name="checkout_header_price">Price</string>
-    <string name="checkout_currency_request">Requesting data...</string>
+    <string name="checkout_currency_request">Total:</string>
+    <string name="checkout_total">Total:</string>
 
     <!-- Menu -->
     <string name="action_cart">Cart</string>
@@ -47,7 +48,7 @@
     <string name="tst_cart_empty">Cart is empty</string>
     <string name="tst_cart_entry_added">Product added to cart</string>
     <string name="tst_cart_entry_removed">Product removed from cart</string>
-    <string name="tst_order_completed">Your order has been successfully transmitted</string>
+    <string name="tst_order_completed">Thank you. Your order will be sent to a random person.</string>
     <string name="tst_service_error">Oops, service not available. Try again later.</string>
 
 
