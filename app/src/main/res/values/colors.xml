@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#016D05</color>
     <color name="colorPrimaryDark">#004002</color>
-    <color name="colorAccent">#ABABAB</color>
+    <color name="colorAccent">#FFBE00</color>
 
     <!-- Card Layout -->
     <color name="glass">#BBFFFFFF</color>

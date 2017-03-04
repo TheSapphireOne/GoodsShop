@@ -3,18 +3,21 @@ package lu.domi.sapphire.minimarket.services;
 
 import android.content.Context;
 
+import lu.domi.sapphire.minimarket.data.ExchangeRates;
 import lu.domi.sapphire.minimarket.data.Product;
 
 public class CartFacade {
 
     private static CartFacade cartInstance = null;
     private CartService cartService;
+    private CurrencyService currencyService;
 
     private CartFacade() {}
 
     private CartFacade(final Context context) {
         cartInstance = new CartFacade();
         cartService =  new CartService(context);
+        currencyService = new CurrencyService();
     }
 
     public void insertUpdate(Product product, int quantity) {
@@ -54,5 +57,9 @@ public class CartFacade {
 
     public CartService getCartService() {
         return cartService;
+    }
+
+    public CurrencyService getCurrencyService() {
+        return currencyService;
     }
 }
