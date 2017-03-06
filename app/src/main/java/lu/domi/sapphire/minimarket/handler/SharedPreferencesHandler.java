@@ -24,7 +24,7 @@ public class SharedPreferencesHandler {
     }
 
     public void insertUpdate(CartEntry entry, int artNo) {
-        SharedPreferences.Editor editor = sharedPrefs.edit();
+        SharedPreferences.Editor editor = getSharedPrefs().edit();
         editor.putString("" + artNo, convertCartEntry(entry));
         editor.apply();
     }
@@ -34,7 +34,7 @@ public class SharedPreferencesHandler {
         SparseArray<CartEntry> cartEntries = new SparseArray<>();
         CartEntry entry;
 
-        Map<String, String> data = (Map<String, String>)sharedPrefs.getAll();
+        Map<String, String> data = (Map<String, String>) getSharedPrefs().getAll();
 
         for (Map.Entry<String, String> dataEntry : data.entrySet()) {
             entry = populateCartEntry(dataEntry.getValue());
@@ -45,15 +45,15 @@ public class SharedPreferencesHandler {
 
     public void delete(int artNo) {
         String key = "" + artNo;
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        if (sharedPrefs.contains(key)) {
+        SharedPreferences.Editor editor = getSharedPrefs().edit();
+        if (getSharedPrefs().contains(key)) {
             editor.remove(key);
             editor.apply();
         }
     }
 
     public void deleteAll() {
-        sharedPrefs.edit().clear().apply();
+        getSharedPrefs().edit().clear().apply();
     }
 
     // Usually we would use populators/converts for this case
@@ -81,5 +81,9 @@ public class SharedPreferencesHandler {
             Log.e(TAG_PREFS, "JSON to CartEntry error: " + e);
         }
         return entry;
+    }
+
+    public SharedPreferences getSharedPrefs() {
+        return sharedPrefs;
     }
 }

@@ -6,8 +6,6 @@ import android.util.SparseArray;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 import lu.domi.sapphire.minimarket.data.CartEntry;
 import lu.domi.sapphire.minimarket.data.Product;
@@ -22,21 +20,21 @@ public class CartService {
         prefsHandler = new SharedPreferencesHandler(context);
     }
 
-    protected void updateEntry(int artNo, int quantity) {
+    void updateEntry(int artNo, int quantity) {
         final CartEntry entry = cartEntries.get(artNo);
         entry.updateQuanity(quantity);
         if (entry.getQuanity() < 1) {
             removeEntry(artNo);
-            prefsHandler.delete(artNo);
+            getPrefsHandler().delete(artNo);
         } else {
-            prefsHandler.insertUpdate(entry, artNo);
+            getPrefsHandler().insertUpdate(entry, artNo);
         }
     }
 
-    protected void insertEntry(Product product, int quantity) {
+    public void insertEntry(Product product, int quantity) {
         CartEntry newEntry = new CartEntry(product.getName(), product.getPrice(), quantity);
         getCartEntries().put(product.getArtNo(), newEntry);
-        prefsHandler.insertUpdate(newEntry, product.getArtNo());
+        getPrefsHandler().insertUpdate(newEntry, product.getArtNo());
     }
 
     public BigDecimal getSubtotal() {
@@ -58,7 +56,7 @@ public class CartService {
 
     public void cleanUpCart() {
         cartEntries = new SparseArray<>();
-        prefsHandler.deleteAll();
+        getPrefsHandler().deleteAll();
     }
 
     public String getFormatedRowTotalOf(int key, BigDecimal rate) {
@@ -67,23 +65,27 @@ public class CartService {
         return formatter.format(rowTotal);
     }
 
-    public boolean contains(int artNo) {
+    boolean contains(int artNo) {
         return getCartEntries().get(artNo) != null;
     }
 
-    public CartEntry getCartEntry(int artNo) {
+    CartEntry getCartEntry(int artNo) {
         return cartEntries.get(artNo);
     }
 
     public SparseArray<CartEntry> getCartEntries() {
         if (cartEntries == null) {
-            cartEntries = prefsHandler.loadAll();
+            cartEntries = getPrefsHandler().loadAll();
         }
         return cartEntries;
     }
 
     void removeEntry(int artNr) {
         cartEntries.remove(artNr);
-        prefsHandler.delete(artNr);
+        getPrefsHandler().delete(artNr);
+    }
+
+    public SharedPreferencesHandler getPrefsHandler() {
+        return prefsHandler;
     }
 }

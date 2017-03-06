@@ -14,12 +14,6 @@ public class ExchangeRates {
     private long timestamp;
     private Map<String, BigDecimal> currencies = new HashMap<>();
 
-    public ExchangeRates() {}
-
-    public ExchangeRates(long timestamp, String currencyIso, BigDecimal rate) {
-        addRate(currencyIso, rate);
-    }
-
     public void addRate(String currencyIso, BigDecimal rate) {
         currencies.put(currencyIso, rate);
     }

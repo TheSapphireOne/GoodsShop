@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String CART = "cart";
     private CartDialogFragment cartDialog;
 
-    // TODO to ensure fast laoding speed when cart is opened... preload it
+    // TODO preload cart in background
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (CartFacade.getServiceInstance(MainActivity.this).hasCartEntries()) {
-                    showCheckout(); // TODO show Button only when got something in cart
+                    showCheckout(); // TODO show Button only when there is something in cart
                 } else {
                     Toast.makeText(MainActivity.this, getString(R.string.tst_cart_empty), Toast.LENGTH_SHORT).show();
                 }
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe
     public void onDialogResponse(CartEntryEvent result) {
-        CartFacade.getServiceInstance(MainActivity.this).remove(result.getEntryArtNo());
+        CartFacade.getServiceInstance(MainActivity.this).removeEntry(result.getEntryArtNo());
         String toastMsg;
         if (result.getKey() == CART_ENTRY_REMOVED) {
             toastMsg = getString(R.string.tst_cart_entry_removed);

@@ -7,6 +7,7 @@ import android.support.v4.util.Pair;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
+import lu.domi.sapphire.minimarket.data.CartEntry;
 import lu.domi.sapphire.minimarket.data.Product;
 
 public class CartFacade {
@@ -33,8 +34,12 @@ public class CartFacade {
         }
     }
 
-    public void remove(int artNo) {
+    public void removeEntry(int artNo) {
         getCartService().removeEntry(artNo);
+    }
+
+    public CartEntry getEntry(int artNo) {
+        return getCartService().getCartEntries().get(artNo);
     }
 
     public boolean hasCartEntries() {
@@ -56,6 +61,10 @@ public class CartFacade {
     public void setCurrency(String isoCode) {
         BigDecimal rate = getCurrencyService().getExchangeRates().getRate(isoCode);
         currencyRate = new Pair<>(isoCode, rate);
+    }
+
+    public String getCurrencyIso() {
+        return currencyRate.first;
     }
 
     public BigDecimal getCurrencyRate() {

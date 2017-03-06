@@ -1,10 +1,8 @@
 package lu.domi.sapphire.minimarket.services;
 
 import android.app.ProgressDialog;
-import android.app.admin.SystemUpdatePolicy;
 import android.content.Context;
 import android.util.Log;
-import android.util.Pair;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,6 +31,12 @@ public class CurrencyService {
     private static final String TAG_JSON_CURRENCY_ALL = "tag_json_currency_all";
     private ExchangeRates exchangeRates;
 
+    public CurrencyService() {
+        exchangeRates = new ExchangeRates();
+        exchangeRates.setTimestamp(System.currentTimeMillis());
+        exchangeRates.addRate("USD", new BigDecimal(1.0d));
+    }
+
     public void requestCurrencies(Context context) {
         final ProgressDialog pSpinner = new ProgressDialog(context);
         pSpinner.setMessage(context.getString(R.string.checkout_currency_request));
@@ -47,6 +51,7 @@ public class CurrencyService {
                         String jsonString = response.toString();
                         Log.d(TAG_CURRENCY_SERVICE, jsonString);
                         ExchangeRates exchangeRates = convertToExchangeRates(jsonString);
+                        // TODO don't send all the rates... just notify
                         EventBus.getDefault().post(new ExchangeRateEvent(exchangeRates, true));
                         pSpinner.hide();
                     }
@@ -87,9 +92,6 @@ public class CurrencyService {
     }
 
     public ExchangeRates getExchangeRates() {
-        if (exchangeRates == null) {
-            exchangeRates = new ExchangeRates(System.currentTimeMillis(), "USD", new BigDecimal(1.0d));
-        }
         return exchangeRates;
     }
 }
