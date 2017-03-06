@@ -1,7 +1,6 @@
 package lu.domi.sapphire.minimarket;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,8 +25,6 @@ import lu.domi.sapphire.minimarket.data.event.ExchangeRateEvent;
 import lu.domi.sapphire.minimarket.services.CartFacade;
 
 public class CheckoutActivity extends AppCompatActivity {
-
-    private static final String TAG_CHECKOUT_ACTIVITY = CheckoutActivity.class.getSimpleName();
     public static final int ORDER_COMPLETED = 2;
     private ArrayAdapter<String> spinnerAdapter;
     private CheckoutAdapter checkoutAdapter;
@@ -35,7 +32,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView totalTextView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) { // TODO move listeners to methods (refactoring)
+    protected void onCreate(Bundle savedInstanceState) { // TODO clean up / refactoring
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
@@ -66,7 +63,7 @@ public class CheckoutActivity extends AppCompatActivity {
         changeCurrencySpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP) { // TODO check why is always checking...
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (exchangeRates.getCurrencies().size() > 1 && exchangeRates.isUpToDate()) {
                         changeCurrencySpinner.performClick();
                     } else {
@@ -79,7 +76,7 @@ public class CheckoutActivity extends AppCompatActivity {
         spinnerAdapter = new ArrayAdapter<>(CheckoutActivity.this, android.R.layout.simple_spinner_dropdown_item,
                 exchangeRates.getCurrencies().toArray(new String[exchangeRates.getCurrencies().size()]));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        changeCurrencySpinner.setAdapter(spinnerAdapter); // TODO set correct currency + add it to cart
+        changeCurrencySpinner.setAdapter(spinnerAdapter);
 
         changeCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -117,7 +114,7 @@ public class CheckoutActivity extends AppCompatActivity {
             currencyList = exchangeRates.getCurrencies().toArray(currencyList);
             spinnerAdapter = new ArrayAdapter<>(CheckoutActivity.this, android.R.layout.simple_spinner_dropdown_item, currencyList);
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            changeCurrencySpinner.setAdapter(spinnerAdapter); // TODO test, when leaving checkout
+            changeCurrencySpinner.setAdapter(spinnerAdapter);
             spinnerAdapter.notifyDataSetChanged();
             changeCurrencySpinner.performClick();
         } else {

@@ -8,41 +8,22 @@
     <string name="pr_milk">Milk</string>
     <string name="pr_beans">Beans</string>
 
-    <!-- Quantity Units -->
-    <!--<plurals name="q_bag">-->
-        <!--<item quantity="one">%d bag</item>-->
-        <!--<item quantity="other">%d bags</item>-->
-    <!--</plurals>-->
-    <!--<plurals name="q_bottle">-->
-        <!--<item quantity="one">%d bottle</item>-->
-        <!--<item quantity="other">%d bottles</item>-->
-    <!--</plurals>-->
-    <!--<plurals name="q_can">-->
-        <!--<item quantity="one">%d can</item>-->
-        <!--<item quantity="other">%d cans</item>-->
-    <!--</plurals>-->
-    <!--<string name="q_dozen">%d dozen</string>-->
-
     <string name="q_bag">/ bag</string>
     <string name="q_bottle">/ bottle</string>
     <string name="q_can">/ can</string>
     <string name="q_dozen">/ dozen</string>
 
     <!-- Views -->
-    <string name="btn_add">Add</string>
     <string name="btn_checkout">CHECKOUT</string>
     <string name="btn_confirm_order">CONFIRM ORDER</string>
     <string name="btn_cancel">Cancel</string>
     <string name="title_cart">My Cart</string>
-    <string name="title_checkout">CHECKOUT</string>
+    <string name="title_checkout">Checkout</string>
     <string name="checkout_header_item">Item</string>
     <string name="checkout_header_quantity">Amount</string>
     <string name="checkout_header_price">Price</string>
     <string name="checkout_currency_request">Total:</string>
     <string name="checkout_total">Total:</string>
-
-    <!-- Menu -->
-    <string name="action_cart">Cart</string>
 
     <!-- Toasts -->
     <string name="tst_cart_empty">Cart is empty</string>
@@ -51,5 +32,13 @@
     <string name="tst_order_completed">Thank you. Your order will be sent to a random person.</string>
     <string name="tst_service_error">Oops, service not available. Try again later.</string>
 
+    <!-- Content description -->
+    <string name="cont_add_to_cart">Add to cart</string>
+    <string name="cont_product_img">Product image</string>
+    <string name="cont_cart">Show cart</string>
+    <string name="cont_back_btn">Back to shopping view</string>
+    <string name="cont_remove_product">Remove product from cart</string>
+    <string name="cont_neg_btn">Decrease product quantity by one</string>
+    <string name="cont_add_btn">Increase product quantity by one</string>
 
 </resources>

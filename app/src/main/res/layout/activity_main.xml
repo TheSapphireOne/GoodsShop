@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="lu.domi.sapphire.minimarket.MainActivity">
-
+    <!-- TODO use custom Toolbar -->
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/main_toolbar"
         app:titleTextColor="@color/textColorTitle"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:background="@color/colorPrimary">
-<!-- TODO use custom TV in all Activities -->
+
         <ImageButton
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
@@ -25,6 +25,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
             android:src="@drawable/cart"
+            android:contentDescription="@string/cont_cart"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_gravity="end"/>
 

@@ -9,10 +9,10 @@ import java.util.Locale;
 public class Product {
 
     private final int artNo;
-    private String name;
-    private QuantityUnit unit;
-    private BigDecimal price;
-    private Drawable productImg;
+    private final String name;
+    private final QuantityUnit unit;
+    private final BigDecimal price;
+    private final Drawable productImg;
 
     public Product(int artNo, String name, QuantityUnit unit, BigDecimal price, Drawable productImg) {
         this.artNo = artNo;

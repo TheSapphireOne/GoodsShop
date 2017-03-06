@@ -46,6 +46,7 @@
             android:scaleType="centerInside"
             android:background="@color/clear"
             android:src="@drawable/ic_delete_black_48px"
+            android:contentDescription="@string/cont_remove_product"
             android:id="@+id/removeEntry_cartCard_imgButton"/>
     </LinearLayout>
 

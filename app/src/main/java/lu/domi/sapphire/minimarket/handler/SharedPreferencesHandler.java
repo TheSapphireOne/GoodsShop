@@ -16,8 +16,8 @@ import lu.domi.sapphire.minimarket.data.CartEntry;
 public class SharedPreferencesHandler {
 
     private static final String TAG_PREFS = SharedPreferencesHandler.class.getSimpleName();
-    public static final String PREFS_NAME = "MiniMarketPrefsFile";
-    private SharedPreferences sharedPrefs;
+    private static final String PREFS_NAME = "MiniMarketPrefsFile";
+    private final SharedPreferences sharedPrefs;
 
     public SharedPreferencesHandler(final Context context) {
         sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -61,7 +61,7 @@ public class SharedPreferencesHandler {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("name", entry.getName());
-            jsonObj.put("quantity", entry.getQuanity());
+            jsonObj.put("quantity", entry.getQuantity());
             jsonObj.put("price", entry.getBasePrice().doubleValue());
         } catch (JSONException e) {
             Log.e(TAG_PREFS, "CartEntry to JSON error: " + e);
@@ -83,7 +83,7 @@ public class SharedPreferencesHandler {
         return entry;
     }
 
-    public SharedPreferences getSharedPrefs() {
+    private SharedPreferences getSharedPrefs() {
         return sharedPrefs;
     }
 }

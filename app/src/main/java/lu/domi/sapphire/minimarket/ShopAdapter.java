@@ -24,9 +24,9 @@ import static android.view.View.GONE;
 public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG_SHOP_ADAPTER = ShopAdapter.class.getSimpleName();
 
-    private ArrayList<Product> productList;
-    private Context context;
-    private Handler repeatUpdateHandler = new Handler();
+    private final ArrayList<Product> productList;
+    private final Context context;
+    private final Handler repeatUpdateHandler = new Handler();
 
     public ShopAdapter(ArrayList<Product> productList, Context context) {
         this.context = context;
@@ -77,15 +77,15 @@ public class ShopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private boolean autoDecrement = false;
         private int count = 0;
         private int cartQuantity;
-        private ImageButton negButton;
-        private ImageButton plusButton;
+        private final ImageButton negButton;
+        private final ImageButton plusButton;
         private boolean addToCartImgSet = true;
-        TextView title;
-        TextView price;
-        TextView unitInfo;
-        ImageView productImg;
-        TextView quantity;
-        ImageButton addToCartBtn;
+        final TextView title;
+        final TextView price;
+        final TextView unitInfo;
+        final ImageView productImg;
+        final TextView quantity;
+        final ImageButton addToCartBtn;
 
         ViewHolderProduct(View view) {
             super(view);

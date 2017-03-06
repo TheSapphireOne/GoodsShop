@@ -6,22 +6,17 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import java.math.BigDecimal;
-import java.util.Locale;
 
 import lu.domi.sapphire.minimarket.data.CartEntry;
 import lu.domi.sapphire.minimarket.services.CartFacade;
 
 public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG_CHECKOUT_ADAPTER = CheckoutAdapter.class.getSimpleName();
-
-    private SparseArray<CartEntry> cartEntryList;
-    private Context context;
+    private final SparseArray<CartEntry> cartEntryList;
+    private final Context context;
     private BigDecimal currencyRate;
 
     public CheckoutAdapter(SparseArray<CartEntry> cartEntryList, Context context) {
@@ -41,10 +36,10 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int key = cartEntryList.keyAt(position);
         CartEntry entry = cartEntryList.get(key);
 
-        cartEntryHolder.name.setText(entry.getName()); // TODO insert special card at pos 1
-        cartEntryHolder.quantity.setText(String.valueOf(entry.getQuanity()));
+        cartEntryHolder.name.setText(entry.getName());
+        cartEntryHolder.quantity.setText(String.valueOf(entry.getQuantity()));
 
-        String rowTotal = CartFacade.getServiceInstance(context).getCartService().getFormatedRowTotalOf(key, currencyRate);
+        String rowTotal = CartFacade.getServiceInstance(context).getCartService().getFormattedRowTotalOf(key, currencyRate);
         cartEntryHolder.rowPrice.setText(rowTotal);
     }
 
@@ -59,9 +54,9 @@ public class CheckoutAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class ViewHolderCartEntry extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView quantity;
-        TextView rowPrice;
+        final TextView name;
+        final TextView quantity;
+        final TextView rowPrice;
 
         ViewHolderCartEntry(View view) {
             super(view);

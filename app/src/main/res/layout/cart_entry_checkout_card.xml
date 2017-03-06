@@ -6,7 +6,6 @@
     card_view:cardUseCompatPadding="true"
     android:layout_width="match_parent"
     android:layout_height="@dimen/cart_entry_card_height"
-    android:background="@color/white"
     android:layout_marginStart="6dp"
     android:layout_marginEnd="6dp"
     android:layout_gravity="center">

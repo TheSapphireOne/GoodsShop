@@ -24,6 +24,7 @@
                 android:layout_height="@dimen/product_card_height"
                 android:id="@+id/product_card_imgView"
                 card_view:srcCompat="@drawable/milk"
+                android:contentDescription="@string/cont_product_img"
                 android:scaleType="centerCrop"/>
 
             <ImageButton
@@ -31,6 +32,7 @@
                 android:layout_height="@dimen/product_card_height"
                 android:visibility="gone"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/cont_add_to_cart"
                 android:src="@drawable/add_to_cart"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:id="@+id/addToCart_card_button" />
@@ -105,6 +107,7 @@
                 android:padding="2dp"
                 android:src="@drawable/ic_add_grey_48px"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cont_add_btn"
                 android:id="@+id/plus_card_imgButton"/>
 
             <TextView
@@ -140,6 +143,7 @@
                 android:padding="2dp"
                 android:src="@drawable/ic_remove_grey_48px"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cont_neg_btn"
                 android:id="@+id/neg_card_imgButton"/>
         </LinearLayout>
 

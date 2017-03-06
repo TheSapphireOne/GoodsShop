@@ -1,15 +1,12 @@
 package lu.domi.sapphire.minimarket.fragments;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -21,14 +18,10 @@ import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CA
 import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CART_ENTRY_REMOVED;
 
 public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG_CART_ADAPTER = CartAdapter.class.getSimpleName();
+    private final SparseArray<CartEntry> cartEntries;
 
-    private SparseArray<CartEntry> cartEntries;
-    private Context context;
-
-    public CartAdapter(SparseArray<CartEntry> cartEntries, Context context) {
+    public CartAdapter(SparseArray<CartEntry> cartEntries) {
         this.cartEntries = cartEntries;
-        this.context = context;
     }
 
     @Override
@@ -41,7 +34,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         final ViewHolderCartEntry productHolder = (ViewHolderCartEntry) holder;
         CartEntry entry = cartEntries.valueAt(position);
         productHolder.productName.setText(entry.getName());
-        productHolder.quantity.setText(String.valueOf(entry.getQuanity()));
+        productHolder.quantity.setText(String.valueOf(entry.getQuantity()));
     }
 
     @Override
@@ -49,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return cartEntries.size();
     }
 
-    private void removeEntry(int index) { // TODO udate price
+    private void removeEntry(int index) {
         CartEntryEvent eventPayload;
         if (cartEntries.size() > 1) {
             eventPayload = new CartEntryEvent(CART_ENTRY_REMOVED, cartEntries.keyAt(index));
@@ -63,9 +56,9 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class ViewHolderCartEntry extends RecyclerView.ViewHolder {
-        TextView productName;
-        TextView quantity;
-        ImageButton deleteBtn;
+        final TextView productName;
+        final TextView quantity;
+        final ImageButton deleteBtn;
 
         ViewHolderCartEntry(View view) {
             super(view);

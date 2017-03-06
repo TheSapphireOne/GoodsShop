@@ -71,7 +71,7 @@ public class CurrencyService {
         exchangeRates = new ExchangeRates();
         try {
             JSONObject reader = new JSONObject(input);
-            // TODO check source = USD -> otherwise error...
+            // TODO check for input: USD -> XXX
             exchangeRates.setTimestamp(System.currentTimeMillis());
             JSONObject dataObj = new JSONObject(reader.getString("quotes").trim());
 

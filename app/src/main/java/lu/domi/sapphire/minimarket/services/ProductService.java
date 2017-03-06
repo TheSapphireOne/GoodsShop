@@ -14,7 +14,7 @@ import static lu.domi.sapphire.minimarket.data.QuantityUnit.*;
 public class ProductService {
 
     private static ProductService productServiceInstance = null;
-    private ArrayList<Product> products = new ArrayList<>();
+    private final ArrayList<Product> products = new ArrayList<>();
 
     private ProductService() {}
 

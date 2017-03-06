@@ -26,13 +26,10 @@ import static lu.domi.sapphire.minimarket.CheckoutActivity.ORDER_COMPLETED;
 import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CART_ENTRY_REMOVED;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG_MAIN_ACTIVITY = MainActivity.class.getSimpleName();
     private static final int CHECKOUT_ACTIVITY = 10;
     private static final String CART = "cart";
     private CartDialogFragment cartDialog;
-
-    // TODO preload cart in background
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (CartFacade.getServiceInstance(MainActivity.this).hasCartEntries()) {
-                    showCheckout(); // TODO show Button only when there is something in cart
+                    showCheckout(); // TODO show Button only when there is something in cart (anim) + add price?
                 } else {
                     Toast.makeText(MainActivity.this, getString(R.string.tst_cart_empty), Toast.LENGTH_SHORT).show();
                 }

@@ -10,9 +10,9 @@ import java.util.Set;
  */
 public class ExchangeRates {
     // Timestamp form when it was last time updated
-    private final static long dayMillis = 86400000;
+    private final static long DAY_MILLIS = 86400000;
     private long timestamp;
-    private Map<String, BigDecimal> currencies = new HashMap<>();
+    private final Map<String, BigDecimal> currencies = new HashMap<>();
 
     public void addRate(String currencyIso, BigDecimal rate) {
         currencies.put(currencyIso, rate);
@@ -31,6 +31,6 @@ public class ExchangeRates {
     }
 
     public boolean isUpToDate() {
-        return (System.currentTimeMillis() - timestamp) < dayMillis;
+        return (System.currentTimeMillis() - timestamp) < DAY_MILLIS;
     }
 }

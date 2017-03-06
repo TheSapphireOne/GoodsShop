@@ -5,7 +5,7 @@ package lu.domi.sapphire.minimarket.data.event;
  */
 public class CartEntryEvent {
     private final FragmentForwardingResult key;
-    private int entryArtNo;
+    private final int entryArtNo;
 
     public CartEntryEvent(FragmentForwardingResult key, int entryArtNo) {
         this.key = key;

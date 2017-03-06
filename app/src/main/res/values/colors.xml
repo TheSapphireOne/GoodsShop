@@ -2,13 +2,10 @@
 <resources>
     <color name="colorPrimary">#016D05</color>
     <color name="colorPrimaryDark">#004002</color>
-    <color name="colorAccent">#FFBE00</color>
+    <color name="colorAccent">#898989</color>
 
     <!-- Card Layout -->
-    <color name="glass">#BBFFFFFF</color>
     <color name="white">#FFFFFF</color>
-    <color name="green">#00B242</color>
-    <color name="red">#FF2F25</color>
     <color name="redDark">#BF3100</color>
     <color name="black">#000000</color>
     <color name="clear">#00FFFFFF</color>
@@ -17,7 +14,7 @@
     <!-- Text -->
     <color name="textColorTitle">#FFFFFF</color>
 
-    <!-- Views -->
+    <!-- Views (accent) -->
     <color name="yellow">#FFBE00</color>
 
 

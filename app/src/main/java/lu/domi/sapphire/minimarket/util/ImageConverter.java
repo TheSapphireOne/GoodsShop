@@ -3,6 +3,9 @@ package lu.domi.sapphire.minimarket.util;
 
 public class ImageConverter {
 
+    // TODO Unused: impl for img optimization
+    // + additional r/w permissions req
+
 //    private final static String IMAGE_CONVERTER_TAG = ImageConverter.class.getSimpleName();
 //    private static int thumbnailHeight = 0;
 //    private static int thumbnailWidth = 0;

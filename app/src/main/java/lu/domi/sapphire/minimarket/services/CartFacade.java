@@ -11,7 +11,7 @@ import lu.domi.sapphire.minimarket.data.CartEntry;
 import lu.domi.sapphire.minimarket.data.Product;
 
 public class CartFacade {
-
+    // TODO clean up services + refactoring
     private static CartFacade cartInstance = null;
     private CartService cartService;
     private CurrencyService currencyService;
@@ -53,7 +53,7 @@ public class CartFacade {
 
     public int getQuantityOf(int artNo) {
         if (getCartService().contains(artNo)) {
-            return getCartService().getCartEntry(artNo).getQuanity();
+            return getCartService().getCartEntry(artNo).getQuantity();
         }
         return 0;
     }
@@ -71,12 +71,12 @@ public class CartFacade {
         return currencyRate.second;
     }
 
-    public String getCartTotal() { // TODO refactoring..
+    public String getCartTotal() {
         // Add shipping costs & taxes here...
         BigDecimal subtotal = getCartService().getSubtotal();
         // Would usually be in a calculation service
         BigDecimal total = subtotal.multiply(currencyRate.second);
-        DecimalFormat formatter = new DecimalFormat("###,###,###.00 " + currencyRate.first);
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00 " + currencyRate.first);
         return formatter.format(total);
     }
 

@@ -26,9 +26,6 @@ import lu.domi.sapphire.minimarket.services.CartFacade;
 import static lu.domi.sapphire.minimarket.data.event.FragmentForwardingResult.CHECKOUT;
 
 public class CartDialogFragment extends DialogFragment {
-
-    private CartAdapter adapter;
-    private SparseArray<CartEntry> cartEntries;
     private TextView subtotalTextView;
 
     @Override
@@ -44,7 +41,7 @@ public class CartDialogFragment extends DialogFragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        EventBus.getDefault().post(CHECKOUT); // TODO on changes . UPDATE recl view
+                        EventBus.getDefault().post(CHECKOUT);
                         getDialog().dismiss();
                     }
                 }).setNeutralButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
@@ -54,8 +51,8 @@ public class CartDialogFragment extends DialogFragment {
                 }
             });
 
-        cartEntries = CartFacade.getServiceInstance(getContext()).getCartService().getCartEntries();
-        adapter = new CartAdapter(cartEntries, getContext());
+        SparseArray<CartEntry> cartEntries = CartFacade.getServiceInstance(getContext()).getCartService().getCartEntries();
+        CartAdapter adapter = new CartAdapter(cartEntries);
 
         RecyclerView recyclerView = (RecyclerView) dialogView.findViewById(R.id.entries_cart_RecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -13,7 +13,7 @@ import lu.domi.sapphire.minimarket.handler.SharedPreferencesHandler;
 
 public class CartService {
 
-    private SharedPreferencesHandler prefsHandler;
+    private final SharedPreferencesHandler prefsHandler;
     private SparseArray<CartEntry> cartEntries;
 
     public CartService(Context context) {
@@ -22,8 +22,8 @@ public class CartService {
 
     void updateEntry(int artNo, int quantity) {
         final CartEntry entry = cartEntries.get(artNo);
-        entry.updateQuanity(quantity);
-        if (entry.getQuanity() < 1) {
+        entry.updateQuantity(quantity);
+        if (entry.getQuantity() < 1) {
             removeEntry(artNo);
             getPrefsHandler().delete(artNo);
         } else {
@@ -50,7 +50,7 @@ public class CartService {
 
     private BigDecimal getRowTotalOf(int key) {
         CartEntry entry = cartEntries.get(key);
-        BigDecimal quantity = new BigDecimal(entry.getQuanity());
+        BigDecimal quantity = new BigDecimal(entry.getQuantity());
         return entry.getBasePrice().multiply(quantity);
     }
 
@@ -59,9 +59,9 @@ public class CartService {
         getPrefsHandler().deleteAll();
     }
 
-    public String getFormatedRowTotalOf(int key, BigDecimal rate) {
+    public String getFormattedRowTotalOf(int key, BigDecimal rate) {
         BigDecimal rowTotal= getRowTotalOf(key).multiply(rate);
-        DecimalFormat formatter = new DecimalFormat("###,###,###.00");
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
         return formatter.format(rowTotal);
     }
 
@@ -85,7 +85,7 @@ public class CartService {
         getPrefsHandler().delete(artNr);
     }
 
-    public SharedPreferencesHandler getPrefsHandler() {
+    private SharedPreferencesHandler getPrefsHandler() {
         return prefsHandler;
     }
 }

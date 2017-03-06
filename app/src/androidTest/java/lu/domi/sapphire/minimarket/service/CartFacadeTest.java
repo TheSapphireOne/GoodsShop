@@ -20,12 +20,12 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class CartFacadeTest {
 
-    private CartFacade cartFacade = CartFacade.getServiceInstance(InstrumentationRegistry.getContext());
+    private final CartFacade cartFacade = CartFacade.getServiceInstance(InstrumentationRegistry.getContext());
 
     // Test products
-    private Product testProduct1 = new Product(11, "prod1", QuantityUnit.BAG, new BigDecimal(12.1d), null);
-    private Product testProduct2 = new Product(22, "prod2", QuantityUnit.BOTTLE, new BigDecimal(75.0d), null);
-    private Product testProduct3 = new Product(33, "prod3", QuantityUnit.CAN, new BigDecimal(36.35d), null);
+    private final Product testProduct1 = new Product(11, "prod1", QuantityUnit.BAG, new BigDecimal(12.1d), null);
+    private final Product testProduct2 = new Product(22, "prod2", QuantityUnit.BOTTLE, new BigDecimal(75.0d), null);
+    private final Product testProduct3 = new Product(33, "prod3", QuantityUnit.CAN, new BigDecimal(36.35d), null);
 
     @Test
     public void insertProduct() {
@@ -73,7 +73,7 @@ public class CartFacadeTest {
     }
 
     @Test
-    public void caluclateCartTotal() {
+    public void calculateCartTotal() {
         cartFacade.insertUpdate(testProduct1, 1);
         cartFacade.insertUpdate(testProduct2, 2);
         cartFacade.insertUpdate(testProduct3, 5);
@@ -90,13 +90,13 @@ public class CartFacadeTest {
     }
 
     @Test
-    public void updateProductQunatity() {
+    public void updateProductQuantity() {
         cartFacade.insertUpdate(testProduct1, 1);
         cartFacade.insertUpdate(testProduct1, 3);
 
-        assertEquals("Product qunatity (added)", 4, cartFacade.getQuantityOf(testProduct1.getArtNo()));
+        assertEquals("Product quantity (added)", 4, cartFacade.getQuantityOf(testProduct1.getArtNo()));
         cartFacade.insertUpdate(testProduct1, -2);
-        assertEquals("Product qunatity (removed)", 2, cartFacade.getQuantityOf(testProduct1.getArtNo()));
+        assertEquals("Product quantity (removed)", 2, cartFacade.getQuantityOf(testProduct1.getArtNo()));
     }
 
     @After

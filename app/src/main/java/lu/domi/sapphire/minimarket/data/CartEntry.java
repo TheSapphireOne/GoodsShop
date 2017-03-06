@@ -1,12 +1,10 @@
 package lu.domi.sapphire.minimarket.data;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class CartEntry {
 
-    private String name;
+    private final String name;
     private int quantity;
     private BigDecimal basePrice;
 
@@ -24,15 +22,11 @@ public class CartEntry {
         return basePrice;
     }
 
-    public int getQuanity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void updateQuanity(int quanity) {
+    public void updateQuantity(int quanity) {
         this.quantity += quanity;
-    }
-
-    public String getTotalPrice() { // TODO priceService
-        return NumberFormat.getCurrencyInstance(Locale.US).format(basePrice.multiply(new BigDecimal(quantity)));
     }
 }
