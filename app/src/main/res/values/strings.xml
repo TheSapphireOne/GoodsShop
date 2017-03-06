@@ -1,6 +1,6 @@
 <resources>
     <!-- Application -->
-    <string name="app_name">Mini Market</string>
+    <string name="app_name">MINI Market</string>
 
     <!-- Products -->
     <string name="pr_tomatoes">Tomatoes</string>
